@@ -1,0 +1,387 @@
+# -*- org-confirm-babel-evaluate: nil -*-
+#+OPTIONS: ^:nil
+#+OPTIONS: html-postamble:nil
+#+LANGUAGE: en-us
+#+HTML_DOCTYPE: html5
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+#+HTML_HEAD: <style>blockquote p:last-child, div.figure p {margin: 0;}</style>
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [a4paper,12pt]
+#+LATEX_HEADER: \usepackage[swedish]{babel}
+#+LATEX_HEADER: \renewcommand{\familydefault}{\sfdefault}
+#+LATEX_HEADER: \usepackage{background}
+#+LATEX_HEADER: \usepackage{helvet}
+#+LATEX_HEADER: \usepackage[margin=1in]{geometry}
+#+LATEX_HEADER: \usepackage{parskip}
+#+LATEX_HEADER: \usepackage{tabularx}
+#+LATEX_HEADER: \usepackage{float}
+#+LATEX_HEADER: \usepackage{color}
+#+LATEX_HEADER: \usepackage{titlesec}
+#+LATEX_HEADER: \usepackage{listings}
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+#+LATEX_HEADER: \usepackage[document]{ragged2e}
+#+LATEX_HEADER: \usepackage[T1]{fontenc}
+#+LATEX_HEADER: \usepackage{sectsty}
+#+LATEX_HEADER: \usepackage[most]{tcolorbox}
+#+LATEX_HEADER: \definecolor{light_grey}{RGB}{51,51,51}
+#+LATEX_HEADER: \definecolor{bright_grey}{RGB}{249,249,249}
+#+LATEX_HEADER: \definecolor{python_blue}{RGB}{41,128,185}
+#+LATEX_HEADER: \titleformat*{\section}{\LARGE\bfseries}
+#+LATEX_HEADER: \titleformat*{\subsection}{\Large\bfseries}
+#+LATEX_HEADER: \titleformat*{\subsubsection}{\large\bfseries}
+#+LATEX_HEADER: \titleformat*{\paragraph}{\large\bfseries}
+#+LATEX_HEADER: \titleformat*{\subparagraph}{\large\bfseries}
+#+LATEX_HEADER: \renewcommand{\baselinestretch}{1.2}
+#+LATEX_HEADER: \hypersetup{colorlinks=true, urlcolor=python_blue, linkcolor=python_blue, citecolor=red}
+#+LATEX_HEADER: \sectionfont{\color{light_grey}}
+#+LATEX_HEADER: \subsectionfont{\color{light_grey}}
+#+LATEX_HEADER: \tolerance=1
+#+LATEX_HEADER: \emergencystretch=\maxdimen
+#+LATEX_HEADER: \hyphenpenalty=10000
+#+LATEX_HEADER: \hbadness=10000
+#+LATEX_HEADER: \makeatletter
+#+LATEX_HEADER: \renewenvironment{quote}{%
+#+LATEX_HEADER:   \tcolorbox[
+#+LATEX_HEADER:     top=10pt,
+#+LATEX_HEADER:     bottom=10pt
+#+LATEX_HEADER:   ]
+#+LATEX_HEADER:   \parskip=0.5\baselineskip \advance\parskip by 0pt plus 2pt
+#+LATEX_HEADER:   \parindent=0pt
+#+LATEX_HEADER: }{%
+#+LATEX_HEADER:   \endtcolorbox
+#+LATEX_HEADER: }
+#+LATEX_HEADER: \makeatother
+#+LATEX_HEADER: \definecolor{light-gray}{gray}{0.95}
+#+LATEX_HEADER: \lstset{
+#+LATEX_HEADER:   xleftmargin=0.5cm,frame=tlbr,framesep=4pt,framerule=0pt,
+#+LATEX_HEADER:   columns=fullflexible,
+#+LATEX_HEADER:   backgroundcolor=\color{light-gray},
+#+LATEX_HEADER:   basicstyle=\footnotesize\ttfamily,
+#+LATEX_HEADER:   breakatwhitespace=false,
+#+LATEX_HEADER:   breaklines=true,
+#+LATEX_HEADER:   frame=single,
+#+LATEX_HEADER:   keepspaces=true,
+#+LATEX_HEADER:   rulecolor=\color{black},
+#+LATEX_HEADER:   showspaces=false,
+#+LATEX_HEADER:   showstringspaces=false,
+#+LATEX_HEADER:   showtabs=false,
+#+LATEX_HEADER:   stepnumber=2,
+#+LATEX_HEADER:   tabsize=2,
+#+LATEX_HEADER: }
+#+LATEX: \color{light_grey}
+#+LATEX: \frenchspacing
+#+LATEX: \raggedright
+#+TITLE: FastQTL-LMM
+#+AUTHOR: Richard Zetterberg <richard.zetterberg@regionh.dk>
+
+* Development process
+
+[[file:./docs/diagrams/devops-overview.png]]
+
+The development process of this project can be divided into
+the following areas:
+
+1. Project management
+  1. What to do
+  2. When to do it
+  3. Who will do it
+2. Software development
+  1. Implementing features
+  2. Testing features
+  3. Storing, managing and distributing source code
+  4. Building artifacts from source code
+  5. Tracing origin source code from artifacts
+
+In order to specify *what* features this software should have, *why* those
+features are needed and *how* those features should behave - this
+project uses the software development process [[https://en.wikipedia.org/wiki/Behavior-driven_development][Behavior-driven development]].
+Besides having a structured method for specifying *what, why and how* -
+this process also defines the language/terminology used in those
+specifications and how to test that each feature fulfill their specification.
+
+That takes care of specifying the features to be implemented, how to
+implement them and how to test them. In order to organize when these
+features should be worked on and who should work on them, this
+project uses the project management process [[https://www.atlassian.com/agile/kanban][Kanban]]. Where tasks
+are managed in [[https://github.com/orgs/BioPsyk/projects/9/views/1][the Kanban-board]] which has the following 4 lanes:
+
+- Ideas :: Ideas about some feature to implement
+- Todo :: Features with a "behavioral specification" to be implemented
+- In progress :: Features being implemented according to its "behavioral specification"
+- Done :: Implemented and released features
+
+The source code is version controlled using [[https://git-scm.com/][git]] and accessed
+in the GitHub repository [[https://github.com/BioPsyk/fastqtl_LMM][BioPsyk/fastqtl_LMM]], where the following practices
+are employed:
+
+- [[https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development][Trunk-based development]]
+- [[https://semver.org/][Semantic Versioning]]
+- [[https://en.wikipedia.org/wiki/Continuous_integration][Continous integration]]
+- [[https://en.wikipedia.org/wiki/Continuous_delivery][Continous delivery]]
+- [[https://keepachangelog.com/en/1.1.0/][Keep a Changelog]]
+- [[https://documentation.divio.com/][The Grand Unified Theory of Documentation]]
+
+In practice this means that there's a ~master~ branch in the git repository,
+which has the following protection:
+
+- Commits cannot be pushed directly to this branch
+- Only accepted GitHub Pull Requests ("PR" hereinafter) can be merged into this branch
+
+A PR is accepted when:
+
+- The [[./VERSION][VERSION]] file has been updated according to [[https://semver.org/][Semantic Versioning]]
+- The [[./CHANGELOG.md][CHANGELOG.md]] file has been updated according to [[https://keepachangelog.com/en/1.1.0/][Keep a Changelog]]
+- All [[https://en.wikipedia.org/wiki/Continuous_integration][Continous integration]] checks are successful
+  - The documentation is built successfully
+  - The executable is built successfully
+  - The test suite is built successfully
+  - The test suite is run successfully
+- Atleast 1 project owner has approved the change
+
+All commits that appear in this branch is processed by the [[https://en.wikipedia.org/wiki/Continuous_delivery][Continous delivery]] pipeline
+which:
+
+- Builds the executable
+- Packages the executable inside a Docker iamge
+- Publishes the docker image on [[https://hub.docker.com/][Docker Hub]]
+- Builds the documentation
+- Publishes the documentation to GitHub Pages
+
+This development process should give us the best conditions for a robust,
+maintanable and easy to use program.
+
+** Task lifecycle
+
+A tasks lifecycle begins when a team member creates an "drafts"
+task in the Kanban-board:
+
+#+LATEX: \vspace{0.5cm}
+#+LATEX: \begin{center}
+#+NAME: task-lifecycle1
+#+ATTR_HTML: :style max-width: 100%;
+#+BEGIN_SRC plantuml :file ./docs/diagrams/task-lifecycle1.png :exports results
+@startuml
+!include ./docs/diagrams/archimate.puml
+
+Rectangle(kanban, "Kanban-board") {
+  Rectangle(drafts, "Drafts")
+  Rectangle(todo, "Todo")
+  Rectangle(inprogress, "In progress")
+  Rectangle(done, "Done")
+
+  Rectangle(task_120, "<b>Task</b>\nIdea about some feature")
+
+  Rel_Triggering_Right(drafts, todo)
+  Rel_Triggering_Right(todo, inprogress)
+  Rel_Triggering_Right(inprogress, done)
+
+  Rel_Composition_Up(task_120, drafts, " Has status")
+}
+@enduml
+#+END_SRC
+
+#+ATTR_LATEX: :placement [H]
+#+RESULTS: task-lifecycle1
+[[file:./docs/diagrams/task-lifecycle1.png]]
+
+#+LATEX: \end{center}
+
+In order for an "drafts" task to become a "todo", the team has to define the details of the
+task. If it's to implement a feature, they need to create a "behavioral specification"
+for the feature and attach it to the task. If it's a bug, the reporter needs to describe
+under which circumstances the bug appears in the description of the task.
+
+#+LATEX: \vspace{0.5cm}
+#+LATEX: \begin{center}
+#+NAME: task-lifecycle2
+#+ATTR_HTML: :style max-width: 100%;
+#+BEGIN_SRC plantuml :file ./docs/diagrams/task-lifecycle2.png :exports results
+@startuml
+!include ./docs/diagrams/archimate.puml
+
+Rectangle(kanban, "Kanban-board") {
+  Rectangle(drafts, "Drafts")
+  Rectangle(todo, "Todo")
+  Rectangle(inprogress, "In progress")
+  Rectangle(done, "Done")
+
+  Rectangle(task_120, "<b>Task</b>\nImplement feature X")
+  File(task_120_spec, "<b>Behavioral spec</b>\nFeature X")
+
+  Rel_Triggering_Right(drafts, todo)
+  Rel_Triggering_Right(todo, inprogress)
+  Rel_Triggering_Right(inprogress, done)
+
+  Rel_Composition_Up(task_120, todo, " Has status")
+  Rel_Composition_Down(task_120, task_120_spec, " Has specification")
+}
+@enduml
+#+END_SRC
+
+#+ATTR_LATEX: :placement [H]
+#+RESULTS: task-lifecycle2
+[[file:./docs/diagrams/task-lifecycle2.png]]
+
+#+LATEX: \end{center}
+
+A developer then picks a task to work on, by:
+
+- Assigning the task to themself
+- Changing the tasks status from "todo" to "in progress"
+- Converting the task into a GitHub repository issue
+
+After that is done, the developer:
+
+- Checkouts the ~master~ branch of the GitHub repository to a local branch called ~issue-N~ (where N is the unique number of the issue)
+- Downloads the behavioral specification and commits it to the local branch
+- Increments the [[./VERSION][VERSION]] file by one MINOR version
+- Adds a new section to the [[./CHANGELOG.md][CHANGELOG.md]] file that describes the change
+
+Once that is done the implementation of the feature can begin.
+
+#+LATEX: \vspace{0.5cm}
+#+LATEX: \begin{center}
+#+NAME: task-lifecycle3
+#+ATTR_HTML: :style max-width: 100%;
+#+BEGIN_SRC plantuml :file ./docs/diagrams/task-lifecycle3.png :exports results
+@startuml
+!include ./docs/diagrams/archimate.puml
+
+Rectangle(kanban, "Kanban-board") {
+  Rectangle(drafts, "Drafts")
+  Rectangle(todo, "Todo")
+  Rectangle(inprogress, "In progress")
+  Rectangle(done, "Done")
+
+  Rectangle(task_120, "<b>Issue 120</b>\nImplement feature X")
+
+  Rel_Triggering_Right(drafts, todo)
+  Rel_Triggering_Right(todo, inprogress)
+  Rel_Triggering_Right(inprogress, done)
+
+  Rel_Composition_Up(task_120, inprogress, " Has status")
+}
+
+Rectangle(github, "GitHub repository") {
+  Folder(master_branch, "<b>Branch</b>\nmaster")
+}
+
+Folder(task_120_branch, "<b>Local branch</b>\nissue-120")
+File(task_120_spec, "<b>Behavioral spec</b>\nFeature X")
+
+Rel_Access_r_Up(task_120_spec, task_120, " Downloaded")
+Rel_Access_w_Right(task_120_spec, task_120_branch, " Commited into")
+Rel_Access_r_Up(task_120_branch, master_branch, " Checked out")
+@enduml
+#+END_SRC
+
+#+ATTR_LATEX: :placement [H]
+#+RESULTS: task-lifecycle3
+[[file:./docs/diagrams/task-lifecycle3.png]]
+
+#+LATEX: \end{center}
+
+Once the feature has been implemented and all behavioral tests are successful,
+the developer can push the local branch to the GitHub repository and create a
+[[https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests][Pull Request]] for merging the issue branch with the ~master~ branch.
+The creation of the PR triggers the CI runner, which runs the tests
+and other quality assurances before marking the PR ready to be reviewed.
+
+#+LATEX: \vspace{0.5cm}
+#+LATEX: \begin{center}
+#+NAME: task-lifecycle4
+#+ATTR_HTML: :style max-width: 100%;
+#+BEGIN_SRC plantuml :file ./docs/diagrams/task-lifecycle4.png :exports results
+@startuml
+!include ./docs/diagrams/archimate.puml
+
+Rectangle(kanban, "Kanban-board") {
+  Rectangle(drafts, "Drafts")
+  Rectangle(todo, "Todo")
+  Rectangle(inprogress, "In progress")
+  Rectangle(done, "Done")
+
+  Rectangle(task_120, "<b>Issue 120</b>\nImplement feature X")
+
+  Rel_Triggering_Right(drafts, todo)
+  Rel_Triggering_Right(todo, inprogress)
+  Rel_Triggering_Right(inprogress, done)
+
+  Rel_Composition_Up(task_120, inprogress, " Has status")
+}
+
+Rectangle(github, "GitHub repository") {
+  Folder(master_branch, "<b>Branch</b>\nmaster")
+  Folder(task_120_branch, "<b>Branch</b>\nissue-120")
+  Storage(pr, "Pull Request 121")
+}
+
+Rectangle(github_act, "GitHub Actions") {
+  Node(ci_runner, "CI Runner")
+}
+
+Folder(task_120_lbranch, "<b>Local branch</b>\nissue-120")
+
+Rel_Access_w_Right(task_120_lbranch, task_120_branch, " Pushed to")
+Rel_Association_Right(task_120_branch, pr)
+Rel_Association_Right(pr, master_branch)
+Rel_Triggering_Down(pr, ci_runner, " Triggers")
+Rel_Access_r_Up(ci_runner, task_120_branch, " Checks out")
+@enduml
+#+END_SRC
+
+#+ATTR_LATEX: :placement [H]
+#+RESULTS: task-lifecycle4
+[[file:./docs/diagrams/task-lifecycle4.png]]
+
+#+LATEX: \end{center}
+
+Once the PR is ready to reviewed, another developer reviews the PR and needs to approve it
+before it can be merged. When the approval lands and the PR is merged, the CD runner is
+triggered to build and publish the executable and documentation.
+
+#+LATEX: \vspace{0.5cm}
+#+LATEX: \begin{center}
+#+NAME: task-lifecycle5
+#+ATTR_HTML: :style max-width: 100%;
+#+BEGIN_SRC plantuml :file ./docs/diagrams/task-lifecycle5.png :exports results
+@startuml
+!include ./docs/diagrams/archimate.puml
+
+Rectangle(kanban, "Kanban-board") {
+  Rectangle(drafts, "Drafts")
+  Rectangle(todo, "Todo")
+  Rectangle(inprogress, "In progress")
+  Rectangle(done, "Done")
+
+  Rectangle(task_120, "<b>Issue 120</b>\nImplement feature X")
+
+  Rel_Triggering_Right(drafts, todo)
+  Rel_Triggering_Right(todo, inprogress)
+  Rel_Triggering_Right(inprogress, done)
+
+  Rel_Composition_Up(task_120, done, " Has status")
+}
+
+Rectangle(github, "GitHub repository") {
+  Folder(master_branch, "<b>Branch</b>\nmaster")
+  Storage(pr, "<b>Merged</b>\nPull Request 121")
+}
+
+Rectangle(github_act, "GitHub Actions") {
+  Node(cd_runner, "CD Runner")
+}
+
+Rel_Access_w_Right(pr, master_branch, " Merged into")
+Rel_Triggering_Down(pr, cd_runner, " Triggers")
+Rel_Access_w_Left(pr, task_120, " Changes status")
+Rel_Access_r_Up(cd_runner, master_branch, " Checks out")
+@enduml
+#+END_SRC
+
+#+ATTR_LATEX: :placement [H]
+#+RESULTS: task-lifecycle5
+[[file:./docs/diagrams/task-lifecycle5.png]]
+
+#+LATEX: \end{center}
